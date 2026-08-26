@@ -4,9 +4,22 @@
 
 @section('content')
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
-        <div><h1 class="h3 fw-bold mb-1">Dashboard</h1><p class="text-secondary mb-0">A quick look at how your advertising is performing.</p></div>
+        <div><h1 class="h3 fw-bold mb-1">{{ auth()->user()->currentBusiness->name }}</h1><p class="text-secondary mb-0">A quick look at how your advertising is performing.</p></div>
         <a href="{{ route('advertisements.create') }}" class="btn btn-primary px-4">Create advertisement</a>
     </div>
+    <section class="card content-card mb-4">
+        <div class="card-body p-4">
+            <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+                <div><h2 class="h5 mb-1">Workspace setup</h2><p class="text-secondary small mb-0">Complete these steps to launch your first advertisement.</p></div>
+                <span class="badge text-bg-light align-self-start">1 of 3 complete</span>
+            </div>
+            <div class="row g-3 mt-1">
+                <div class="col-12 col-md-4"><div class="p-3 rounded-3 bg-success-subtle h-100"><div class="small text-success fw-semibold">Step 1 · Complete</div><div class="fw-semibold mt-1">Business profile completed</div></div></div>
+                <div class="col-12 col-md-4"><div class="p-3 rounded-3 bg-light h-100"><div class="small text-secondary fw-semibold">Step 2</div><div class="fw-semibold mt-1">Connect Meta account</div></div></div>
+                <div class="col-12 col-md-4"><div class="p-3 rounded-3 bg-light h-100"><div class="small text-secondary fw-semibold">Step 3</div><div class="fw-semibold mt-1">Create first advertisement</div></div></div>
+            </div>
+        </div>
+    </section>
     <div class="alert alert-warning d-flex align-items-start gap-3" role="alert">
         <span class="fs-4" aria-hidden="true">!</span>
         <div class="flex-grow-1"><div class="fw-semibold">Connect your Meta account</div><div class="small">Connect Facebook and Instagram to start creating and tracking advertisements.</div></div>

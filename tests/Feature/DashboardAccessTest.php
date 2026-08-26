@@ -19,6 +19,7 @@ class DashboardAccessTest extends TestCase
     public function test_verified_active_users_can_view_dashboard(): void
     {
         $user = User::factory()->create();
+        $this->createBusinessFor($user);
 
         $this->actingAs($user)
             ->get(route('dashboard'))
@@ -26,6 +27,15 @@ class DashboardAccessTest extends TestCase
             ->assertSee('Active Campaigns')
             ->assertSee('Campaign performance')
             ->assertSee('Recent campaigns');
+    }
+
+    public function test_verified_users_without_a_business_are_redirected_to_onboarding(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->get(route('dashboard'))
+            ->assertRedirect(route('business.onboarding.create'));
     }
 
     public function test_unverified_users_are_redirected_to_verification_notice(): void

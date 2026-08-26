@@ -16,6 +16,7 @@ body {
 a { text-decoration: none; }
 .auth-page { min-height: 100vh; background: linear-gradient(145deg, #f6f7ff 0%, #eef2ff 45%, #f8fafc 100%); }
 .auth-card { max-width: 460px; width: 100%; border: 0; border-radius: 1rem; }
+.auth-card-wide { max-width: 780px; }
 .brand-mark { color: var(--app-primary); font-weight: 800; letter-spacing: -.04em; }
 .brand-dot { color: #f59e0b; }
 .app-sidebar { --bs-offcanvas-width: var(--app-sidebar-width); width: var(--app-sidebar-width) !important; color: #dbe3f0; background: #172033; border: 0 !important; }
@@ -26,6 +27,9 @@ a { text-decoration: none; }
 .sidebar-nav .nav-icon { display: inline-flex; justify-content: center; width: 1.35rem; margin-right: .6rem; }
 .app-topbar { min-height: 68px; background: #fff; border-bottom: 1px solid #e8ecf3; }
 .avatar { align-items: center; background: #e9e9ff; border-radius: 50%; color: var(--app-primary); display: inline-flex; font-size: .8rem; font-weight: 700; height: 2.2rem; justify-content: center; width: 2.2rem; }
+.business-avatar { align-items: center; background: #dedfff; border-radius: .5rem; color: var(--app-primary); display: inline-flex; font-size: .75rem; font-weight: 800; height: 1.75rem; justify-content: center; width: 1.75rem; }
+.business-switcher-name { max-width: 180px; }
+.min-w-0 { min-width: 0; }
 .app-content { min-height: calc(100vh - 68px); }
 .stat-card, .content-card { border: 1px solid #edf0f5; border-radius: .9rem; box-shadow: 0 4px 18px rgba(37, 50, 75, .04); }
 .stat-icon { align-items: center; border-radius: .75rem; display: inline-flex; font-size: 1.1rem; height: 2.75rem; justify-content: center; width: 2.75rem; }

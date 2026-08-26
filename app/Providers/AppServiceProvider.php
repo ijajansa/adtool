@@ -3,8 +3,11 @@
 namespace App\Providers;
 
 use App\Listeners\UpdateLastLoginAt;
+use App\Models\Business;
+use App\Policies\BusinessPolicy;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,5 +26,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Event::listen(Login::class, UpdateLastLoginAt::class);
+        Gate::policy(Business::class, BusinessPolicy::class);
     }
 }

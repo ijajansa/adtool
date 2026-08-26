@@ -8,14 +8,14 @@
         <nav class="sidebar-nav nav nav-pills flex-column gap-1" aria-label="Main navigation">
             @php
                 $navigation = [
-                    ['route' => 'dashboard', 'match' => 'dashboard', 'label' => 'Dashboard', 'icon' => '⌂'],
-                    ['route' => 'meta-connection.index', 'match' => 'meta-connection.*', 'label' => 'Meta Connection', 'icon' => '◎'],
-                    ['route' => 'campaigns.index', 'match' => 'campaigns.*', 'label' => 'Campaigns', 'icon' => '◫'],
+                    ['route' => 'dashboard', 'match' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'D'],
+                    ['route' => 'meta-connection.index', 'match' => 'meta-connection.*', 'label' => 'Meta Connection', 'icon' => 'M'],
+                    ['route' => 'campaigns.index', 'match' => 'campaigns.*', 'label' => 'Campaigns', 'icon' => 'C'],
                     ['route' => 'advertisements.create', 'match' => 'advertisements.*', 'label' => 'Create Advertisement', 'icon' => '+'],
-                    ['route' => 'leads.index', 'match' => 'leads.*', 'label' => 'Leads', 'icon' => '♙'],
-                    ['route' => 'reports.index', 'match' => 'reports.*', 'label' => 'Reports', 'icon' => '↗'],
-                    ['route' => 'billing.index', 'match' => 'billing.*', 'label' => 'Billing', 'icon' => '¤'],
-                    ['route' => 'profile.edit', 'match' => 'profile.*', 'label' => 'Settings', 'icon' => '⚙'],
+                    ['route' => 'leads.index', 'match' => 'leads.*', 'label' => 'Leads', 'icon' => 'L'],
+                    ['route' => 'reports.index', 'match' => 'reports.*', 'label' => 'Reports', 'icon' => 'R'],
+                    ['route' => 'billing.index', 'match' => 'billing.*', 'label' => 'Billing', 'icon' => 'B'],
+                    ['route' => 'business.settings.edit', 'match' => 'business.settings.*', 'label' => 'Settings', 'icon' => 'S'],
                 ];
             @endphp
             @foreach ($navigation as $item)
