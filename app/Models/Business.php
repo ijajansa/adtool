@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -63,6 +65,58 @@ class Business extends Model
     public function activeUsers(): BelongsToMany
     {
         return $this->users()->wherePivot('status', true);
+    }
+
+    public function metaConnection(): HasOne
+    {
+        return $this->hasOne(MetaConnection::class);
+    }
+
+    public function metaBusinessAccounts(): HasMany
+    {
+        return $this->hasMany(MetaBusinessAccount::class);
+    }
+
+    public function metaAdAccounts(): HasMany
+    {
+        return $this->hasMany(MetaAdAccount::class);
+    }
+
+    public function metaPages(): HasMany
+    {
+        return $this->hasMany(MetaPage::class);
+    }
+
+    public function metaInstagramAccounts(): HasMany
+    {
+        return $this->hasMany(MetaInstagramAccount::class);
+    }
+
+    public function selectedMetaBusinessAccount(): HasOne
+    {
+        return $this->hasOne(MetaBusinessAccount::class)->where('is_selected', true);
+    }
+
+    public function selectedMetaAdAccount(): HasOne
+    {
+        return $this->hasOne(MetaAdAccount::class)->where('is_selected', true);
+    }
+
+    public function selectedMetaPage(): HasOne
+    {
+        return $this->hasOne(MetaPage::class)->where('is_selected', true);
+    }
+
+    public function selectedMetaInstagramAccount(): HasOne
+    {
+        return $this->hasOne(MetaInstagramAccount::class)->where('is_selected', true);
+    }
+
+    public function hasCompletedMetaSetup(): bool
+    {
+        return $this->metaConnection?->status === MetaConnection::STATUS_CONNECTED
+            && $this->selectedMetaAdAccount !== null
+            && $this->selectedMetaPage !== null;
     }
 
     public function scopeActive(Builder $query): Builder

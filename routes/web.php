@@ -4,6 +4,8 @@ use App\Http\Controllers\BusinessOnboardingController;
 use App\Http\Controllers\BusinessSettingsController;
 use App\Http\Controllers\BusinessSwitchController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MetaAssetSelectionController;
+use App\Http\Controllers\MetaConnectionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +22,12 @@ Route::middleware(['auth', 'verified', 'active-user'])->group(function () {
     Route::middleware('business-selected')->group(function () {
         Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
-        Route::view('/meta-connection', 'pages.placeholder', ['title' => 'Meta Connection'])->name('meta-connection.index');
+        Route::get('/meta-connection', [MetaConnectionController::class, 'index'])->name('meta-connection.index');
+        Route::get('/meta-connection/redirect', [MetaConnectionController::class, 'redirect'])->name('meta-connection.redirect');
+        Route::get('/meta-connection/callback', [MetaConnectionController::class, 'callback'])->name('meta-connection.callback');
+        Route::post('/meta-connection/sync', [MetaConnectionController::class, 'sync'])->name('meta-connection.sync');
+        Route::put('/meta-connection/assets', [MetaAssetSelectionController::class, 'update'])->name('meta-connection.assets.update');
+        Route::delete('/meta-connection', [MetaConnectionController::class, 'disconnect'])->name('meta-connection.disconnect');
         Route::view('/campaigns', 'pages.placeholder', ['title' => 'Campaigns'])->name('campaigns.index');
         Route::view('/advertisements/create', 'pages.placeholder', ['title' => 'Create Advertisement'])->name('advertisements.create');
         Route::view('/leads', 'pages.placeholder', ['title' => 'Leads'])->name('leads.index');
