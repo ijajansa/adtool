@@ -50,8 +50,8 @@ class LoginRequest extends FormRequest
         if (! Auth::attempt($credentials, $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
-            $user = User::where('email', $this->string('email'))->first();
-            $message = $user && ! $user->status && Hash::check($this->string('password'), $user->password)
+            $user = User::where('email', (string) $this->string('email'))->first();
+            $message = $user && ! $user->status && Hash::check((string) $this->string('password'), $user->password)
                 ? 'Your account has been disabled. Please contact support.'
                 : trans('auth.failed');
 

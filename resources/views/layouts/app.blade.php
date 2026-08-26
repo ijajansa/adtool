@@ -14,7 +14,11 @@
         <main class="app-content p-3 p-md-4">
             @if (session('status'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('status') }}
+                    {{ match (session('status')) {
+                        'profile-updated' => 'Profile updated successfully.',
+                        'password-updated' => 'Password updated successfully.',
+                        default => session('status'),
+                    } }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif

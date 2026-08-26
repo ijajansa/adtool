@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => redirect()->route('login'))->name('home');
 
-Route::middleware(['auth', 'verified', 'active'])->group(function () {
+Route::middleware(['auth', 'verified', 'active-user'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
     Route::view('/meta-connection', 'pages.placeholder', ['title' => 'Meta Connection'])->name('meta-connection.index');
