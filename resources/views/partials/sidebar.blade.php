@@ -1,4 +1,4 @@
-<aside class="app-sidebar offcanvas-lg offcanvas-start vh-100" tabindex="-1" id="appSidebar" aria-labelledby="appSidebarLabel">
+<aside class="app-sidebar offcanvas offcanvas-start" tabindex="-1" id="appSidebar" aria-labelledby="appSidebarLabel">
     <div class="offcanvas-header border-bottom border-secondary px-4 py-3">
         <a class="sidebar-brand" href="{{ route('dashboard') }}" id="appSidebarLabel">AdSimplify<span class="brand-dot">.</span></a>
         <button type="button" class="btn-close btn-close-white d-lg-none" data-bs-dismiss="offcanvas" data-bs-target="#appSidebar" aria-label="Close"></button>
@@ -10,8 +10,8 @@
                 $navigation = [
                     ['route' => 'dashboard', 'match' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'D'],
                     ['route' => 'meta-connection.index', 'match' => 'meta-connection.*', 'label' => 'Meta Connection', 'icon' => 'M'],
-                    ['route' => 'campaigns.index', 'match' => 'campaigns.*', 'label' => 'Campaigns', 'icon' => 'C'],
-                    ['route' => 'advertisements.create', 'match' => 'advertisements.*', 'label' => 'Create Advertisement', 'icon' => '+'],
+                    ['route' => 'campaigns.index', 'match' => ['campaigns.index', 'campaigns.show'], 'label' => 'Campaigns', 'icon' => 'C'],
+                    ['route' => 'campaigns.create', 'match' => ['campaigns.create', 'campaigns.store', 'campaigns.wizard.*', 'campaigns.review'], 'label' => 'Create Advertisement', 'icon' => '+'],
                     ['route' => 'leads.index', 'match' => 'leads.*', 'label' => 'Leads', 'icon' => 'L'],
                     ['route' => 'reports.index', 'match' => 'reports.*', 'label' => 'Reports', 'icon' => 'R'],
                     ['route' => 'billing.index', 'match' => 'billing.*', 'label' => 'Billing', 'icon' => 'B'],

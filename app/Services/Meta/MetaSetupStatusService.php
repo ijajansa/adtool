@@ -42,7 +42,7 @@ class MetaSetupStatusService
             ['label' => 'Business profile completed', 'complete' => true],
             ['label' => 'Connect Meta account', 'complete' => $connected],
             ['label' => 'Select ad account and Facebook Page', 'complete' => $assetsSelected],
-            ['label' => 'Create first advertisement', 'complete' => false],
+            ['label' => 'Create first advertisement', 'complete' => $business->adCampaigns()->exists()],
         ];
 
         return [

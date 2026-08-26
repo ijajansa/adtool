@@ -5,7 +5,7 @@
 @section('content')
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
         <div><h1 class="h3 fw-bold mb-1">{{ $business->name }}</h1><p class="text-secondary mb-0">A quick look at how your advertising is performing.</p></div>
-        <a href="{{ route('advertisements.create') }}" class="btn btn-primary px-4">Create advertisement</a>
+        <a href="{{ route('campaigns.create') }}" class="btn btn-primary px-4">Create advertisement</a>
     </div>
     <section class="card content-card mb-4">
         <div class="card-body p-4">
@@ -23,10 +23,10 @@
     @endif
     <div class="row g-3 mb-4">
         @foreach ([
-            ['label' => 'Active Campaigns', 'value' => '0', 'icon' => '◫', 'color' => 'primary'],
-            ['label' => 'Total Ad Spend', 'value' => '$0.00', 'icon' => '$', 'color' => 'warning'],
-            ['label' => 'Total Leads', 'value' => '0', 'icon' => '♙', 'color' => 'success'],
-            ['label' => 'Total Reach', 'value' => '0', 'icon' => '↗', 'color' => 'info'],
+            ['label' => 'Draft Campaigns', 'value' => $campaignCounts['draft'] ?? 0, 'icon' => 'D', 'color' => 'secondary'],
+            ['label' => 'Ready Campaigns', 'value' => $campaignCounts['ready'] ?? 0, 'icon' => 'R', 'color' => 'success'],
+            ['label' => 'Active Campaigns', 'value' => $campaignCounts['active'] ?? 0, 'icon' => 'A', 'color' => 'primary'],
+            ['label' => 'Failed Campaigns', 'value' => $campaignCounts['failed'] ?? 0, 'icon' => '!', 'color' => 'danger'],
         ] as $stat)
             <div class="col-12 col-sm-6 col-xl-3"><div class="card stat-card h-100"><div class="card-body d-flex justify-content-between align-items-start">
                 <div><div class="stat-label mb-2">{{ $stat['label'] }}</div><div class="stat-value">{{ $stat['value'] }}</div></div>
@@ -45,13 +45,13 @@
             <h2 class="h5 mb-1">Quick start</h2><p class="text-secondary small">Complete these steps to launch your first ad.</p>
             <div class="list-group list-group-flush">
                 <a href="{{ route('meta-connection.index') }}" class="list-group-item list-group-item-action px-0 py-3">1. Connect Meta account</a>
-                <a href="{{ route('advertisements.create') }}" class="list-group-item list-group-item-action px-0 py-3">2. Create an advertisement</a>
+                <a href="{{ route('campaigns.create') }}" class="list-group-item list-group-item-action px-0 py-3">2. Create an advertisement</a>
                 <a href="{{ route('reports.index') }}" class="list-group-item list-group-item-action px-0 py-3">3. Review performance</a>
             </div>
         </div></section></div>
         <div class="col-12"><section class="card content-card">
             <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center pt-4 px-4"><div><h2 class="h5 mb-1">Recent campaigns</h2><p class="text-secondary small mb-0">Your latest advertising campaigns</p></div><a href="{{ route('campaigns.index') }}" class="btn btn-sm btn-outline-primary">View all</a></div>
-            <div class="card-body px-4"><div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Campaign</th><th>Status</th><th>Budget</th><th>Leads</th><th>Reach</th></tr></thead><tbody><tr><td colspan="5"><div class="empty-state">No campaigns yet. Create your first advertisement to get started.</div></td></tr></tbody></table></div></div>
+            <div class="card-body px-4"><div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Campaign</th><th>Goal</th><th>Status</th><th>Budget</th><th>Updated</th></tr></thead><tbody>@forelse($recentCampaigns as $campaign)<tr><td><a class="fw-semibold" href="{{ route('campaigns.show',$campaign) }}">{{ $campaign->name }}</a></td><td>{{ $campaign->goal->label() }}</td><td><span class="badge text-bg-secondary">{{ $campaign->status->label() }}</span></td><td>{{ $campaign->budget ? $campaign->budget->currency_code.' '.number_format((float)$campaign->budget->amount,2) : '—' }}</td><td>{{ $campaign->updated_at->diffForHumans() }}</td></tr>@empty<tr><td colspan="5"><div class="empty-state">No campaigns yet. Create your first advertisement to get started.</div></td></tr>@endforelse</tbody></table></div></div>
         </section></div>
     </div>
 @endsection

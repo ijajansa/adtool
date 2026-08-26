@@ -3,11 +3,14 @@
 namespace App\Providers;
 
 use App\Listeners\UpdateLastLoginAt;
+use App\Models\AdCampaign;
 use App\Models\Business;
 use App\Models\MetaConnection;
+use App\Policies\AdCampaignPolicy;
 use App\Policies\BusinessPolicy;
 use App\Policies\MetaConnectionPolicy;
 use Illuminate\Auth\Events\Login;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -29,6 +32,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Event::listen(Login::class, UpdateLastLoginAt::class);
         Gate::policy(Business::class, BusinessPolicy::class);
+        Gate::policy(AdCampaign::class, AdCampaignPolicy::class);
         Gate::policy(MetaConnection::class, MetaConnectionPolicy::class);
+        Paginator::useBootstrapFive();
     }
 }

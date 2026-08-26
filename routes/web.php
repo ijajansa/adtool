@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Ads\AdWizardController;
+use App\Http\Controllers\Ads\CampaignController;
+use App\Http\Controllers\Ads\CampaignReviewController;
+use App\Http\Controllers\Ads\CreativeMediaController;
 use App\Http\Controllers\BusinessOnboardingController;
 use App\Http\Controllers\BusinessSettingsController;
 use App\Http\Controllers\BusinessSwitchController;
@@ -28,8 +32,26 @@ Route::middleware(['auth', 'verified', 'active-user'])->group(function () {
         Route::post('/meta-connection/sync', [MetaConnectionController::class, 'sync'])->name('meta-connection.sync');
         Route::put('/meta-connection/assets', [MetaAssetSelectionController::class, 'update'])->name('meta-connection.assets.update');
         Route::delete('/meta-connection', [MetaConnectionController::class, 'disconnect'])->name('meta-connection.disconnect');
-        Route::view('/campaigns', 'pages.placeholder', ['title' => 'Campaigns'])->name('campaigns.index');
-        Route::view('/advertisements/create', 'pages.placeholder', ['title' => 'Create Advertisement'])->name('advertisements.create');
+        Route::get('/campaigns', [CampaignController::class, 'index'])->name('campaigns.index');
+        Route::get('/campaigns/create', [CampaignController::class, 'create'])->name('campaigns.create');
+        Route::post('/campaigns', [CampaignController::class, 'store'])->name('campaigns.store');
+        Route::get('/campaigns/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
+        Route::delete('/campaigns/{campaign}', [CampaignController::class, 'destroy'])->name('campaigns.destroy');
+        Route::post('/campaigns/{campaign}/duplicate', [CampaignController::class, 'duplicate'])->name('campaigns.duplicate');
+        Route::get('/campaigns/{campaign}/wizard/goal', [AdWizardController::class, 'editGoal'])->name('campaigns.wizard.goal.edit');
+        Route::put('/campaigns/{campaign}/wizard/goal', [AdWizardController::class, 'updateGoal'])->name('campaigns.wizard.goal.update');
+        Route::get('/campaigns/{campaign}/wizard/assets', [AdWizardController::class, 'editAssets'])->name('campaigns.wizard.assets.edit');
+        Route::put('/campaigns/{campaign}/wizard/assets', [AdWizardController::class, 'updateAssets'])->name('campaigns.wizard.assets.update');
+        Route::get('/campaigns/{campaign}/wizard/creative', [AdWizardController::class, 'editCreative'])->name('campaigns.wizard.creative.edit');
+        Route::put('/campaigns/{campaign}/wizard/creative', [AdWizardController::class, 'updateCreative'])->name('campaigns.wizard.creative.update');
+        Route::get('/campaigns/{campaign}/wizard/audience', [AdWizardController::class, 'editAudience'])->name('campaigns.wizard.audience.edit');
+        Route::put('/campaigns/{campaign}/wizard/audience', [AdWizardController::class, 'updateAudience'])->name('campaigns.wizard.audience.update');
+        Route::get('/campaigns/{campaign}/wizard/budget', [AdWizardController::class, 'editBudget'])->name('campaigns.wizard.budget.edit');
+        Route::put('/campaigns/{campaign}/wizard/budget', [AdWizardController::class, 'updateBudget'])->name('campaigns.wizard.budget.update');
+        Route::get('/campaigns/{campaign}/review', [CampaignReviewController::class, 'show'])->name('campaigns.review');
+        Route::post('/campaigns/{campaign}/mark-ready', [CampaignReviewController::class, 'markReady'])->name('campaigns.mark-ready');
+        Route::get('/campaigns/{campaign}/media', CreativeMediaController::class)->name('campaigns.media.show');
+        Route::get('/advertisements/create', fn () => redirect()->route('campaigns.create'))->name('advertisements.create');
         Route::view('/leads', 'pages.placeholder', ['title' => 'Leads'])->name('leads.index');
         Route::view('/reports', 'pages.placeholder', ['title' => 'Reports'])->name('reports.index');
         Route::view('/billing', 'pages.placeholder', ['title' => 'Billing'])->name('billing.index');

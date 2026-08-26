@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\AdCampaignStatus;
 use Database\Factories\BusinessFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -90,6 +91,16 @@ class Business extends Model
     public function metaInstagramAccounts(): HasMany
     {
         return $this->hasMany(MetaInstagramAccount::class);
+    }
+
+    public function adCampaigns(): HasMany
+    {
+        return $this->hasMany(AdCampaign::class);
+    }
+
+    public function draftCampaigns(): HasMany
+    {
+        return $this->adCampaigns()->where('status', AdCampaignStatus::Draft);
     }
 
     public function selectedMetaBusinessAccount(): HasOne
