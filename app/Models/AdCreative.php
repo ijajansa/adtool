@@ -15,6 +15,9 @@ class AdCreative extends Model
         'business_id', 'ad_campaign_id', 'format', 'primary_text', 'headline', 'description',
         'call_to_action', 'destination_url', 'whatsapp_number', 'lead_form_name', 'media_path',
         'original_filename', 'mime_type', 'file_size', 'width', 'height', 'thumbnail_path', 'meta_creative_id',
+        'meta_image_hash', 'meta_video_id', 'meta_lead_form_id', 'privacy_policy_url',
+        'privacy_policy_link_text', 'requested_fields', 'completion_title', 'completion_message',
+        'completion_button_text', 'completion_destination_url',
     ];
 
     public function campaign(): BelongsTo
@@ -24,6 +27,6 @@ class AdCreative extends Model
 
     protected function casts(): array
     {
-        return ['format' => AdCreativeFormat::class, 'file_size' => 'integer', 'width' => 'integer', 'height' => 'integer'];
+        return ['format' => AdCreativeFormat::class, 'file_size' => 'integer', 'width' => 'integer', 'height' => 'integer', 'requested_fields' => 'array'];
     }
 }

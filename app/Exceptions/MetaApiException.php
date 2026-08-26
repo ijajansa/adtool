@@ -23,4 +23,11 @@ class MetaApiException extends RuntimeException
     {
         return $this->context;
     }
+
+    public function retryable(): bool
+    {
+        return ($this->context['reason'] ?? null) === 'connection_failure'
+            || ($this->context['http_status'] ?? null) === 429
+            || in_array($this->context['meta_code'] ?? null, [1, 2, 4, 17, 32, 613], true);
+    }
 }

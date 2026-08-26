@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Ads;
 
 use App\Enums\AdBudgetType;
+use App\Enums\SpecialAdCategory;
 use App\Http\Requests\Ads\Concerns\AuthorizesCampaignUpdate;
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Http\FormRequest;
@@ -26,6 +27,9 @@ class UpdateCampaignBudgetRequest extends FormRequest
             'starts_at' => ['required', 'date_format:Y-m-d\TH:i'],
             'ends_at' => ['required_if:budget_type,lifetime', 'nullable', 'date_format:Y-m-d\TH:i'],
             'currency_code' => ['prohibited'],
+            'special_ad_category_declared' => ['nullable', 'boolean'],
+            'special_ad_categories' => ['required_if:special_ad_category_declared,1', 'nullable', 'array', 'min:1'],
+            'special_ad_categories.*' => [Rule::enum(SpecialAdCategory::class)],
         ];
     }
 

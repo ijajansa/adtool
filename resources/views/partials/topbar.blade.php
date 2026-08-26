@@ -22,6 +22,11 @@
             </ul>
         </div>
     </div>
+    <div class="d-flex align-items-center gap-2">
+    <span class="position-relative" title="Unread notifications" aria-label="{{ auth()->user()->unread_notifications_count }} unread notifications">
+        <span class="btn btn-light border">&#128276;</span>
+        @if(auth()->user()->unread_notifications_count)<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{ auth()->user()->unread_notifications_count }}</span>@endif
+    </span>
     <div class="dropdown">
         <button class="btn border-0 d-flex align-items-center gap-2 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <span class="avatar">{{ Str::upper(Str::substr(auth()->user()->name, 0, 1)) }}</span>
@@ -33,5 +38,5 @@
             <li><hr class="dropdown-divider"></li>
             <li><form method="POST" action="{{ route('logout') }}">@csrf<button type="submit" class="dropdown-item text-danger">Logout</button></form></li>
         </ul>
-    </div>
+    </div></div>
 </header>

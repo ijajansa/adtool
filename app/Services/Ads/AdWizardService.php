@@ -66,7 +66,7 @@ class AdWizardService
                 }
 
                 $payload = [
-                    ...Arr::only($data, ['format', 'primary_text', 'headline', 'description', 'call_to_action', 'destination_url', 'whatsapp_number', 'lead_form_name']),
+                    ...Arr::only($data, ['format', 'primary_text', 'headline', 'description', 'call_to_action', 'destination_url', 'whatsapp_number', 'lead_form_name', 'privacy_policy_url', 'privacy_policy_link_text', 'requested_fields', 'completion_title', 'completion_message', 'completion_button_text', 'completion_destination_url']),
                     'destination_url' => $data['destination_url'] ?? null,
                     'whatsapp_number' => $data['whatsapp_number'] ?? null,
                     'lead_form_name' => $data['lead_form_name'] ?? null,
@@ -117,6 +117,12 @@ class AdWizardService
                 'ends_at' => $endsAt,
             ]);
             $campaign->update(['starts_at' => $startsAt, 'ends_at' => $endsAt, 'current_step' => max($campaign->current_step, 6), 'status' => AdCampaignStatus::Draft]);
+            if (array_key_exists('special_ad_category_declared', $data)) {
+                $campaign->update([
+                    'special_ad_category_declared' => (bool) $data['special_ad_category_declared'],
+                    'special_ad_categories' => (bool) $data['special_ad_category_declared'] ? ($data['special_ad_categories'] ?? []) : [],
+                ]);
+            }
         });
     }
 }

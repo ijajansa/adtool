@@ -103,6 +103,11 @@ class Business extends Model
         return $this->adCampaigns()->where('status', AdCampaignStatus::Draft);
     }
 
+    public function adPublicationAttempts(): HasMany
+    {
+        return $this->hasMany(AdPublicationAttempt::class);
+    }
+
     public function selectedMetaBusinessAccount(): HasOne
     {
         return $this->hasOne(MetaBusinessAccount::class)->where('is_selected', true);

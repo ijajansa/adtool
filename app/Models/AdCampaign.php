@@ -9,6 +9,7 @@ use App\Models\Concerns\BelongsToBusiness;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -20,7 +21,9 @@ class AdCampaign extends Model
         'business_id', 'created_by', 'meta_connection_id', 'meta_ad_account_id',
         'meta_page_id', 'meta_instagram_account_id', 'name', 'goal', 'status',
         'meta_campaign_id', 'meta_adset_id', 'meta_ad_id', 'current_step',
-        'published_at', 'starts_at', 'ends_at', 'last_error',
+        'publication_attempt_id', 'effective_status', 'configured_status',
+        'published_at', 'last_synced_at', 'starts_at', 'ends_at', 'last_error',
+        'special_ad_category_declared', 'special_ad_categories',
     ];
 
     public function creator(): BelongsTo
@@ -63,6 +66,21 @@ class AdCampaign extends Model
         return $this->hasOne(AdCreative::class);
     }
 
+    public function publicationAttempts(): HasMany
+    {
+        return $this->hasMany(AdPublicationAttempt::class);
+    }
+
+    public function latestPublicationAttempt(): HasOne
+    {
+        return $this->hasOne(AdPublicationAttempt::class)->latestOfMany();
+    }
+
+    public function publicationAttempt(): BelongsTo
+    {
+        return $this->belongsTo(AdPublicationAttempt::class, 'publication_attempt_id');
+    }
+
     public function scopeDrafts(Builder $query): Builder
     {
         return $query->where('status', AdCampaignStatus::Draft);
@@ -102,8 +120,11 @@ class AdCampaign extends Model
             'status' => AdCampaignStatus::class,
             'current_step' => 'integer',
             'published_at' => 'datetime',
+            'last_synced_at' => 'datetime',
             'starts_at' => 'datetime',
             'ends_at' => 'datetime',
+            'special_ad_category_declared' => 'boolean',
+            'special_ad_categories' => 'array',
             'deleted_at' => 'datetime',
         ];
     }

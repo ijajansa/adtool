@@ -9,3 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('meta:check-connections')->daily();
+Schedule::command('meta:sync-campaigns')->everyFifteenMinutes()->withoutOverlapping();

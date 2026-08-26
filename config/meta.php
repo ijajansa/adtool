@@ -13,6 +13,7 @@ return [
         'business_management',
         'pages_show_list',
         'pages_read_engagement',
+        'pages_manage_ads',
         // 'instagram_basic',
     ],
     'http_timeout' => (int) env('META_HTTP_TIMEOUT', 20),

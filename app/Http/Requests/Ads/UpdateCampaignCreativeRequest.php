@@ -41,6 +41,14 @@ class UpdateCampaignCreativeRequest extends FormRequest
             'destination_url' => [$goal === AdCampaignGoal::WebsiteTraffic->value ? 'required' : 'nullable', 'url:http,https', 'max:2048'],
             'whatsapp_number' => [$goal === AdCampaignGoal::WhatsAppMessages->value ? 'required' : 'nullable', 'regex:/^\+[1-9][0-9]{7,14}$/'],
             'lead_form_name' => [$goal === AdCampaignGoal::LeadGeneration->value ? 'required' : 'nullable', 'string', 'max:255'],
+            'privacy_policy_url' => [$goal === AdCampaignGoal::LeadGeneration->value ? 'required' : 'nullable', 'url:https', 'max:2048'],
+            'privacy_policy_link_text' => [$goal === AdCampaignGoal::LeadGeneration->value ? 'required' : 'nullable', 'string', 'max:255'],
+            'requested_fields' => [$goal === AdCampaignGoal::LeadGeneration->value ? 'required' : 'nullable', 'array', 'min:1'],
+            'requested_fields.*' => [Rule::in(['FULL_NAME', 'EMAIL', 'PHONE'])],
+            'completion_title' => [$goal === AdCampaignGoal::LeadGeneration->value ? 'required' : 'nullable', 'string', 'max:255'],
+            'completion_message' => [$goal === AdCampaignGoal::LeadGeneration->value ? 'required' : 'nullable', 'string', 'max:1000'],
+            'completion_button_text' => [$goal === AdCampaignGoal::LeadGeneration->value ? 'required' : 'nullable', 'string', 'max:255'],
+            'completion_destination_url' => ['nullable', 'url:http,https', 'max:2048'],
             'media' => $mediaRules,
         ];
     }

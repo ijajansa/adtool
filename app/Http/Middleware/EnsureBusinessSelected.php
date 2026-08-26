@@ -35,6 +35,7 @@ class EnsureBusinessSelected
 
         $user->setRelation('currentBusiness', $currentBusiness);
         $user->setRelation('businesses', $accessibleBusinesses);
+        $user->loadCount('unreadNotifications');
         view()->share('accessibleBusinesses', $accessibleBusinesses);
 
         return $next($request);

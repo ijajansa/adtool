@@ -46,7 +46,7 @@ class MetaAssetSyncService
             'limit' => 100,
         ]);
         $pages = $this->client->getAll('me/accounts', $accessToken, [
-            'fields' => 'id,name,category,access_token,tasks,picture{url},instagram_business_account{id,username,name,profile_picture_url,followers_count}',
+            'fields' => 'id,name,category,access_token,tasks,picture{url},instagram_business_account{id,username,name,profile_picture_url,followers_count},has_whatsapp_number,has_whatsapp_business_number,whatsapp_number,leadgen_tos_accepted,has_lead_access',
             'limit' => 100,
         ]);
 

@@ -35,6 +35,28 @@ class MetaGraphApiClient
         );
     }
 
+    /** @param array<string, mixed> $payload */
+    public function postFormWithToken(string $path, string $accessToken, array $payload = []): array
+    {
+        $encoded = collect($payload)->map(fn ($value) => is_array($value) ? json_encode($value, JSON_THROW_ON_ERROR) : $value)->all();
+
+        return $this->send(
+            fn (PendingRequest $request) => $request->withToken($accessToken)->asForm()->post($this->url($path), $encoded),
+            $path,
+        );
+    }
+
+    /** @param array<string, string|int> $fields */
+    public function postMultipart(string $path, string $accessToken, string $field, string $contents, string $filename, string $mimeType, array $fields = []): array
+    {
+        return $this->send(
+            fn (PendingRequest $request) => $request->withToken($accessToken)
+                ->attach($field, $contents, $filename, ['Content-Type' => $mimeType])
+                ->post($this->url($path), $fields),
+            $path,
+        );
+    }
+
     /**
      * Used for OAuth exchanges so credentials and tokens stay in the request body, not the URL.
      *
