@@ -8,13 +8,14 @@ use App\Enums\AdCreativeFormat;
 use App\Models\AdCampaign;
 use App\Models\MetaConnection;
 use App\Services\Ads\CampaignValidationService;
+use App\Services\Ads\SpendingControlService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\MessageBag;
 use Illuminate\Validation\ValidationException;
 
 class MetaPublicationValidationService
 {
-    public function __construct(private CampaignValidationService $draftValidation, private MetaTargetingBuilder $targeting, private MetaBudgetConverter $money) {}
+    public function __construct(private CampaignValidationService $draftValidation, private MetaTargetingBuilder $targeting, private MetaBudgetConverter $money, private SpendingControlService $spendingControls) {}
 
     public function validate(AdCampaign $campaign): MessageBag
     {
@@ -80,6 +81,9 @@ class MetaPublicationValidationService
         try {
             if ($campaign->budget) {
                 $this->money->toMinorUnits($campaign->budget->amount, $campaign->budget->currency_code);
+                if (auth()->user()) {
+                    $this->spendingControls->validate($campaign, $campaign->budget->amount, auth()->user());
+                }
             }
         } catch (\InvalidArgumentException $exception) {
             $errors->add('budget', $exception->getMessage());

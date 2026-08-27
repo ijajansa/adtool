@@ -26,4 +26,14 @@ class BusinessPolicy
     {
         return $business->status && $user->hasBusinessRole($business, 'owner');
     }
+
+    public function manageAnalytics(User $user, Business $business): bool
+    {
+        return $this->update($user, $business);
+    }
+
+    public function exportAnalytics(User $user, Business $business): bool
+    {
+        return $this->view($user, $business);
+    }
 }

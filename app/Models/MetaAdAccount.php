@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Models\Concerns\BelongsToBusiness;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class MetaAdAccount extends Model
 {
@@ -38,6 +40,16 @@ class MetaAdAccount extends Model
     public function metaBusinessAccount(): BelongsTo
     {
         return $this->belongsTo(MetaBusinessAccount::class);
+    }
+
+    public function snapshots(): HasMany
+    {
+        return $this->hasMany(AdAccountSnapshot::class);
+    }
+
+    public function latestSnapshot(): HasOne
+    {
+        return $this->hasOne(AdAccountSnapshot::class)->latestOfMany('snapshot_at');
     }
 
     protected function casts(): array

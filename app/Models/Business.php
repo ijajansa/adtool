@@ -108,6 +108,21 @@ class Business extends Model
         return $this->hasMany(AdPublicationAttempt::class);
     }
 
+    public function campaignInsights(): HasMany
+    {
+        return $this->hasMany(CampaignInsightDaily::class);
+    }
+
+    public function adAccountSnapshots(): HasMany
+    {
+        return $this->hasMany(AdAccountSnapshot::class);
+    }
+
+    public function spendingControl(): HasOne
+    {
+        return $this->hasOne(AdSpendingControl::class);
+    }
+
     public function selectedMetaBusinessAccount(): HasOne
     {
         return $this->hasOne(MetaBusinessAccount::class)->where('is_selected', true);

@@ -81,6 +81,21 @@ class AdCampaign extends Model
         return $this->belongsTo(AdPublicationAttempt::class, 'publication_attempt_id');
     }
 
+    public function dailyInsights(): HasMany
+    {
+        return $this->hasMany(CampaignInsightDaily::class);
+    }
+
+    public function insightSummaries(): HasMany
+    {
+        return $this->hasMany(CampaignInsightSummary::class);
+    }
+
+    public function budgetChangeLogs(): HasMany
+    {
+        return $this->hasMany(AdBudgetChangeLog::class);
+    }
+
     public function scopeDrafts(Builder $query): Builder
     {
         return $query->where('status', AdCampaignStatus::Draft);

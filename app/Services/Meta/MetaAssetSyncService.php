@@ -159,9 +159,9 @@ class MetaAssetSyncService
 
     /**
      * Meta ad-account monetary fields are returned as integer minor units. The schema stores
-     * normal currency units at two-decimal precision, so this moves the decimal point two places.
+     * normal currency units using the configured currency precision.
      */
-    public function minorUnitsToMajor(int|float|string|null $value): ?string
+    public function minorUnitsToMajor(int|float|string|null $value, string $currency = 'USD'): ?string
     {
         if ($value === null || $value === '') {
             return null;
@@ -169,15 +169,21 @@ class MetaAssetSyncService
 
         $raw = (string) $value;
         if (! preg_match('/^-?\d+$/', $raw)) {
-            return number_format(((float) $value) / 100, 2, '.', '');
+            return null;
         }
 
         $negative = str_starts_with($raw, '-');
         $digits = ltrim($raw, '-0') ?: '0';
-        $digits = str_pad($digits, 3, '0', STR_PAD_LEFT);
-        $major = ltrim(substr($digits, 0, -2), '0') ?: '0';
-        $minor = substr($digits, -2);
+        $precision = config('meta_publishing.currency_precision.'.strtoupper($currency));
+        if ($precision === null) {
+            return null;
+        }
+        if ($precision === 0) {
+            return ($negative ? '-' : '').$digits;
+        }
+        $digits = str_pad($digits, $precision + 1, '0', STR_PAD_LEFT);
+        $major = ltrim(substr($digits, 0, -$precision), '0') ?: '0';
 
-        return ($negative ? '-' : '').$major.'.'.$minor;
+        return ($negative ? '-' : '').$major.'.'.substr($digits, -$precision);
     }
 }

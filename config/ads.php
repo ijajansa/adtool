@@ -28,4 +28,9 @@ return [
     'minimum_budget' => ['USD' => 5, 'INR' => 100, 'GBP' => 5, 'EUR' => 5, 'default' => 5],
     'radius' => ['min' => 1, 'max' => 80],
     'genders' => ['all', 'male', 'female'],
+    'insights' => [
+        'backfill_max_days' => env('ADS_INSIGHTS_BACKFILL_MAX_DAYS', 90),
+        'api_chunk_days' => 30,
+        'recommendations' => ['no_result_spend' => '25.00', 'high_frequency' => '4.00', 'stale_hours' => 26],
+    ],
 ];

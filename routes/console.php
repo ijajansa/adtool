@@ -10,3 +10,6 @@ Artisan::command('inspire', function () {
 
 Schedule::command('meta:check-connections')->daily();
 Schedule::command('meta:sync-campaigns')->everyFifteenMinutes()->withoutOverlapping();
+Schedule::command('meta:sync-insights')->hourly()->withoutOverlapping();
+Schedule::command('meta:sync-insights --completed')->daily()->withoutOverlapping();
+Schedule::command('meta:sync-account-snapshots')->everySixHours()->withoutOverlapping();

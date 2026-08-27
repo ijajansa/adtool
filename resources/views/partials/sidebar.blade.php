@@ -13,8 +13,8 @@
                     ['route' => 'campaigns.index', 'match' => ['campaigns.index', 'campaigns.show'], 'label' => 'Campaigns', 'icon' => 'C'],
                     ['route' => 'campaigns.create', 'match' => ['campaigns.create', 'campaigns.store', 'campaigns.wizard.*', 'campaigns.review'], 'label' => 'Create Advertisement', 'icon' => '+'],
                     ['route' => 'leads.index', 'match' => 'leads.*', 'label' => 'Leads', 'icon' => 'L'],
-                    ['route' => 'reports.index', 'match' => 'reports.*', 'label' => 'Reports', 'icon' => 'R'],
-                    ['route' => 'billing.index', 'match' => 'billing.*', 'label' => 'Billing', 'icon' => 'B'],
+                    ['route' => 'analytics.compare', 'match' => 'analytics.*', 'label' => 'Reports', 'icon' => 'R'],
+                    ['route' => 'ad-spend.index', 'match' => 'ad-spend.*', 'label' => 'Ad Spend', 'icon' => 'B'],
                     ['route' => 'business.settings.edit', 'match' => 'business.settings.*', 'label' => 'Settings', 'icon' => 'S'],
                 ];
             @endphp

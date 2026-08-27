@@ -54,6 +54,11 @@ class AdCampaignPolicy
         return $this->ownsContext($user, $campaign) && $campaign->meta_ad_id !== null && $this->hasRole($user, ['owner', 'admin']);
     }
 
+    public function updateBudget(User $user, AdCampaign $campaign): bool
+    {
+        return $this->ownsContext($user, $campaign) && $campaign->meta_adset_id !== null && $this->hasRole($user, ['owner', 'admin']);
+    }
+
     public function duplicate(User $user, AdCampaign $campaign): bool
     {
         return $this->ownsContext($user, $campaign) && $this->hasRole($user, self::WRITE_ROLES);

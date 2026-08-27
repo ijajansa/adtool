@@ -6,10 +6,17 @@ use App\Http\Controllers\Ads\CampaignReviewController;
 use App\Http\Controllers\Ads\CreativeMediaController;
 use App\Http\Controllers\Ads\MetaCampaignPublishingController;
 use App\Http\Controllers\Ads\MetaCampaignStatusController;
+use App\Http\Controllers\AdSpendController;
+use App\Http\Controllers\AnalyticsDashboardController;
+use App\Http\Controllers\AnalyticsExportController;
+use App\Http\Controllers\BudgetSettingsController;
 use App\Http\Controllers\BusinessOnboardingController;
 use App\Http\Controllers\BusinessSettingsController;
 use App\Http\Controllers\BusinessSwitchController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CampaignAnalyticsController;
+use App\Http\Controllers\CampaignBudgetController;
+use App\Http\Controllers\CampaignComparisonController;
+use App\Http\Controllers\InsightBackfillController;
 use App\Http\Controllers\MetaAssetSelectionController;
 use App\Http\Controllers\MetaConnectionController;
 use App\Http\Controllers\ProfileController;
@@ -26,7 +33,14 @@ Route::middleware(['auth', 'verified', 'active-user'])->group(function () {
         ->name('businesses.switch');
 
     Route::middleware('business-selected')->group(function () {
-        Route::get('/dashboard', DashboardController::class)->name('dashboard');
+        Route::get('/dashboard', AnalyticsDashboardController::class)->name('dashboard');
+        Route::get('/analytics/compare', [CampaignComparisonController::class, 'index'])->name('analytics.compare');
+        Route::get('/analytics/backfill', [InsightBackfillController::class, 'create'])->name('analytics.backfill.create');
+        Route::post('/analytics/backfill', [InsightBackfillController::class, 'store'])->middleware('throttle:3,1')->name('analytics.backfill.store');
+        Route::get('/analytics/export/{type}', [AnalyticsExportController::class, 'export'])->middleware('throttle:10,1')->name('analytics.export');
+        Route::get('/ad-spend', [AdSpendController::class, 'index'])->name('ad-spend.index');
+        Route::get('/settings/spending-controls', [BudgetSettingsController::class, 'edit'])->name('spending-controls.edit');
+        Route::put('/settings/spending-controls', [BudgetSettingsController::class, 'update'])->name('spending-controls.update');
 
         Route::get('/meta-connection', [MetaConnectionController::class, 'index'])->name('meta-connection.index');
         Route::get('/meta-connection/redirect', [MetaConnectionController::class, 'redirect'])->name('meta-connection.redirect');
@@ -38,6 +52,9 @@ Route::middleware(['auth', 'verified', 'active-user'])->group(function () {
         Route::get('/campaigns/create', [CampaignController::class, 'create'])->name('campaigns.create');
         Route::post('/campaigns', [CampaignController::class, 'store'])->name('campaigns.store');
         Route::get('/campaigns/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
+        Route::get('/campaigns/{campaign}/analytics', [CampaignAnalyticsController::class, 'show'])->name('campaigns.analytics');
+        Route::get('/campaigns/{campaign}/budget/edit', [CampaignBudgetController::class, 'edit'])->name('campaigns.budget.edit');
+        Route::put('/campaigns/{campaign}/budget', [CampaignBudgetController::class, 'update'])->middleware(['password.confirm', 'throttle:5,1'])->name('campaigns.budget.update');
         Route::delete('/campaigns/{campaign}', [CampaignController::class, 'destroy'])->name('campaigns.destroy');
         Route::post('/campaigns/{campaign}/duplicate', [CampaignController::class, 'duplicate'])->name('campaigns.duplicate');
         Route::get('/campaigns/{campaign}/wizard/goal', [AdWizardController::class, 'editGoal'])->name('campaigns.wizard.goal.edit');
